@@ -17,6 +17,19 @@ public class UtilsEnum : MonoBehaviour
         noble     = 1 << 6,
     }
 
-
+    public static int howManyFlag(attribute attributeToDivide)
+    {
+        int counter = 0;
+        string[] justForLength = System.Enum.GetNames(typeof(attribute));
+        for (int i = 0; i < justForLength.Length; i++)
+        {
+            attribute lonelyFlag = (attribute)(1 << i);
+            if (attributeToDivide.HasFlag(lonelyFlag))
+            {
+                counter++;
+            }
+        }
+        return counter;
+    }
 
 }

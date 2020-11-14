@@ -112,7 +112,9 @@ public class MainCharacter : MonoBehaviour
             this.transform.Translate(direction * speed * Time.deltaTime);
 
             //Rotation :
-            Quaternion quat = Quaternion.FromToRotation(Vector3.back, direction);
+            Vector3 directionButWithoutY = direction;
+            directionButWithoutY.y = 0;
+            Quaternion quat = Quaternion.FromToRotation(Vector3.back, directionButWithoutY);
             visualAnimator.transform.rotation = quat;
             //Cool trick : make it with a lerp ?
 
