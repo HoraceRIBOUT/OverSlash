@@ -16,4 +16,14 @@ public class GameManager : MonoBehaviour
     public UIManager ui_manager;
     public MainCharacter main_character;
     public CameraManager camera_Manager;
+
+
+    [Sirenix.OdinInspector.Button]
+    public void SpawnBlob()
+    {
+        foreach(Blob bl in FindObjectsOfType<Blob>())
+        {
+            bl.Spawn();
+        }
+    }
 }
