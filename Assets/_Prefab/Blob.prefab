@@ -179,9 +179,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   alive: 1
   _animator: {fileID: 4238880291933881448}
+  _collider: {fileID: 4238880292931274805}
+  damageUI: {fileID: 3938922871578010636, guid: 0397ed358653d834b85c16a547f1e6c9,
+    type: 3}
+  deadUI: {fileID: 3179675967542752563, guid: 88bbcf7de7915a1499d7f44f59457ef7, type: 3}
   life: 5
   weight: 1
   blobAttribute: 0
+  smallSize: {x: 0.5, y: 0.5, z: 0.5}
+  mediumSize: {x: 1, y: 1, z: 1}
+  largeSize: {x: 1.5, y: 1.5, z: 1.5}
 --- !u!135 &4238880292931274805
 SphereCollider:
   m_ObjectHideFlags: 0

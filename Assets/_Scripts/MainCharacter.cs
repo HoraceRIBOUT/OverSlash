@@ -7,14 +7,11 @@ public class MainCharacter : MonoBehaviour
     public Camera mainCamera;
     public Animator visualAnimator;
     public LayerMask layerMaskForMovement;
-
-    public Transform target;
-    public Transform target1;
-    public Transform target2;
-
+    
     private Vector3 destination = new Vector3(0,-1,0);
 
     public Blob currentBlobTarget;
+    public Blob currentDraggedBlob;
 
     [Header("GD data")]
     public float speed = 3f;
@@ -94,6 +91,7 @@ public class MainCharacter : MonoBehaviour
                 else
                 {
                     visualAnimator.SetTrigger("Attack");
+                    currentBlobTarget = null;
                 }
             }
         }
