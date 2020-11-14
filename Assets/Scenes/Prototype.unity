@@ -1011,12 +1011,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pivotPoint: {fileID: 770291360}
   xPersoPosition: 0
-  xRotRight: 12.39
+  xRotRight: 14.5
   zRotRight: -2
-  xMaxRight: -25
+  xMaxRight: -18
   xMiddle: 0
-  xMaxLeft: 25
-  xRotLeft: -14
+  xMaxLeft: 18
+  xRotLeft: -16
   zRotLeft: 2
   yRotation: {x: 64, y: 65, z: 67}
   yPosMinMax: {x: -6, y: 8}
@@ -1053,8 +1053,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  cameraSpeed: 0.9
-  rotationSpeed: 0.02
+  rotationSpeed: 0.1
 --- !u!1 &1182388420
 GameObject:
   m_ObjectHideFlags: 0

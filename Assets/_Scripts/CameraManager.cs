@@ -24,9 +24,7 @@ public class CameraManager : MonoBehaviour
     public Vector2 yPosMinMax = new Vector2(-6,6);
 
     public AnimationCurve yMiddleCurve = new AnimationCurve(new Keyframe(-1,0), new Keyframe(0, 0), new Keyframe(1, 0));
-
-    [Range(0, 1)]
-    public float cameraSpeed = 0.9f;
+    
 
     [Range(0, 1)]
     public float rotationSpeed = 0.9f;
@@ -60,18 +58,18 @@ public class CameraManager : MonoBehaviour
 
         if (positionHero > 0)
         {
-            //xPersoPosition = -positionHero / xMaxRight;
-            rotationValueX = xRotRight * (-positionHero / xMaxRight);
-            rotationValueZ = zRotRight * (-positionHero / xMaxRight);
+            xPersoPosition = Mathf.Min(-positionHero / xMaxRight, 1);
+            rotationValueX = xRotRight * xPersoPosition;
+            rotationValueZ = zRotRight * xPersoPosition;
         }
         else if (positionHero < 0)
         {
-            //xPersoPosition = positionHero / xMaxLeft;
-            rotationValueX = xRotLeft * (-positionHero / xMaxLeft);
-            rotationValueZ = zRotLeft * (-positionHero / xMaxLeft);
+            xPersoPosition = Mathf.Min(-positionHero / xMaxLeft, 1);
+            rotationValueX = xRotLeft * xPersoPosition;
+            rotationValueZ = zRotLeft * xPersoPosition;
         }
-        //else
-        //    xPersoPosition = positionHero;
+        else
+            xPersoPosition = positionHero;
 
         rotationValueX = rotationValueX * rotationSpeed + previousRotationValueX * (1 - rotationSpeed);
         rotationValueZ = rotationValueZ * rotationSpeed + previousRotationValueZ * (1 - rotationSpeed);
@@ -83,20 +81,20 @@ public class CameraManager : MonoBehaviour
 
 
         float positionHeroY = hero.position.z;
-        positionHeroY -= yMiddleCurve.Evaluate(positionHero);
+        positionHeroY -= yMiddleCurve.Evaluate(xPersoPosition);
         float rotationValueY = 0;
         if (positionHeroY > 0)
         {
             rotationValueY = Mathf.Lerp(yRotation.y, yRotation.x, positionHeroY / yPosMinMax.y);
-            xPersoPosition = positionHeroY / yPosMinMax.y;
+            //xPersoPosition = positionHeroY / yPosMinMax.y;
     }
         else if (positionHeroY < 0)
         {
             rotationValueY = Mathf.Lerp(yRotation.y, yRotation.z, positionHeroY / yPosMinMax.x);
-            xPersoPosition = positionHeroY / yPosMinMax.x;
+            //xPersoPosition = positionHeroY / yPosMinMax.x;
         }
 
-//        Debug.Log(" hero.position.z = " + hero.position.z + " Position hero = " + positionHeroY + " rotationValueY = " + rotationValueY + " yMiddleCurve.Evaluate(positionHeroY) =" + yMiddleCurve.Evaluate(positionHero));
+        Debug.Log(" hero.position.z = " + hero.position.z + " Position hero = " + positionHeroY + " rotationValueY = " + rotationValueY + " yMiddleCurve.Evaluate(positionHero) =" + yMiddleCurve.Evaluate(xPersoPosition));
 
         rotationValueY = rotationValueY * rotationSpeed + previousRotationValueY * (1 - rotationSpeed);
         this.transform.localRotation = Quaternion.Euler(Vector3.right * rotationValueY);
