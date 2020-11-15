@@ -6,8 +6,6 @@ using UnityEngine;
 public class BlobSpawner : MonoBehaviour
 {
 
-
-
     public void Start()
     {
         if(Application.isPlaying)
@@ -16,14 +14,14 @@ public class BlobSpawner : MonoBehaviour
 
     private void Update()
     {
-        Debug.DrawLine(this.transform.position + Vector3.back    * randomAmpl + Vector3.right * randomAmpl,
-                       this.transform.position + Vector3.back    * randomAmpl + Vector3.left  * randomAmpl, Color.red);
-        Debug.DrawLine(this.transform.position + Vector3.back    * randomAmpl + Vector3.right * randomAmpl,
-                       this.transform.position + Vector3.forward * randomAmpl + Vector3.right * randomAmpl, Color.red);
-        Debug.DrawLine(this.transform.position + Vector3.forward * randomAmpl + Vector3.left  * randomAmpl,
-                       this.transform.position + Vector3.forward * randomAmpl + Vector3.right * randomAmpl, Color.red);
-        Debug.DrawLine(this.transform.position + Vector3.forward * randomAmpl + Vector3.left  * randomAmpl,
-                       this.transform.position + Vector3.back    * randomAmpl + Vector3.left  * randomAmpl, Color.red);
+        Debug.DrawLine(this.transform.position + Vector3.back    * randomYAmpl + Vector3.right * randomXAmpl,
+                       this.transform.position + Vector3.back    * randomYAmpl + Vector3.left  * randomXAmpl, Color.red);
+        Debug.DrawLine(this.transform.position + Vector3.back    * randomYAmpl + Vector3.right * randomXAmpl,
+                       this.transform.position + Vector3.forward * randomYAmpl + Vector3.right * randomXAmpl, Color.red);
+        Debug.DrawLine(this.transform.position + Vector3.forward * randomYAmpl + Vector3.left  * randomXAmpl,
+                       this.transform.position + Vector3.forward * randomYAmpl + Vector3.right * randomXAmpl, Color.red);
+        Debug.DrawLine(this.transform.position + Vector3.forward * randomYAmpl + Vector3.left  * randomXAmpl,
+                       this.transform.position + Vector3.back    * randomYAmpl + Vector3.left  * randomXAmpl, Color.red);
     }
 
     [Header("Spawner info")]
@@ -32,7 +30,9 @@ public class BlobSpawner : MonoBehaviour
     public Transform blobParent;
 
     public float waitTimerMin = 6f;
-    public float randomAmpl = 4f;
+    public float randomTimer = 4f;
+    public float randomXAmpl = 4f;
+    public float randomYAmpl = 4f;
 
     public int blobCounter = 0;
 
@@ -40,8 +40,6 @@ public class BlobSpawner : MonoBehaviour
 
     public IEnumerator BlobSpawning()
     {
-        SpawnBlob();
-        SpawnBlob();
         SpawnBlob();
         SpawnBlob();
         yield return new WaitForSeconds(2f);
@@ -53,7 +51,7 @@ public class BlobSpawner : MonoBehaviour
                 SpawnBlob();
             }
             //else, don't spawn any more
-            float randomWait = waitTimerMin + Random.Range(0, randomAmpl);
+            float randomWait = waitTimerMin + Random.Range(0, randomTimer);
             yield return new WaitForSeconds(randomWait);
         }
     }
@@ -61,12 +59,40 @@ public class BlobSpawner : MonoBehaviour
     public void SpawnBlob()
     {
         Vector3 randomPosition = this.transform.position;
-        randomPosition.x += Random.Range(-randomAmpl, randomAmpl);
-        randomPosition.z += Random.Range(-randomAmpl, randomAmpl);
+        randomPosition.x += Random.Range(-randomXAmpl, randomXAmpl);
+        randomPosition.z += Random.Range(-randomYAmpl, randomYAmpl);
 
-        Instantiate(blobPrefab, randomPosition, Quaternion.identity, blobParent);
+        Blob newBlob = Instantiate(blobPrefab, randomPosition, Quaternion.identity, blobParent).GetComponent<Blob>();
 
         blobCounter++;
+
+        newBlob.mySpawner = this;
     }
+
+
+    public List<Transform> idlingPoint;
+    public List<int> indexTaken;
+
+    public void RemoveThisPoint(Transform pointToRemove)
+    {
+        indexTaken.Remove(idlingPoint.IndexOf(pointToRemove));
+    }
+    public Transform GetNewIdlingPosition()
+    {
+        int randomIndex = Random.Range(0, idlingPoint.Count - indexTaken.Count);
+
+        while (indexTaken.Contains(randomIndex))
+        {
+            randomIndex++;
+            if(randomIndex == idlingPoint.Count - 1)
+            {
+                randomIndex = 0;
+            }
+        }
+        indexTaken.Add(randomIndex);
+
+        return idlingPoint[randomIndex];
+    }
+
 
 }

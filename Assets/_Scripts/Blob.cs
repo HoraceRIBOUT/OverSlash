@@ -14,15 +14,18 @@ public class Blob : MonoBehaviour
     public GameObject deadUI;
 
     public Vector3 nextTargetPosition;
+    public Transform nextTarget;
 
     public Animator layerSpeechBubble;
     public GameObject attributeNeedPrefab;
+    public BlobSpawner mySpawner;
 
     [Header("GD data")]
 
     public float life = 5f;
     public float weight = 1f;
     public float rangeAttack = 3f;
+    public float speed = 1f;
 
     [Range(0, 1.99f)]
     public float dragDistance = 2f;
@@ -192,8 +195,51 @@ public class Blob : MonoBehaviour
         }
     }
 
+    public float timerPause = 0;
+    public Vector2 randomWaitMinMax = new Vector2(2f, 6.5f);
+    private float randomWait = 0;
+
     public void FollowPath()
     {
+
+        if (nextTargetPosition == this.transform.position)
+        {
+            Debug.Log("Or else...");
+            //wait for timer
+            timerPause += Time.deltaTime;
+            if(timerPause > randomWait)
+            {
+                //At the end of the wait, they move to the "next point"
+                //so choose the next non target point
+
+                mySpawner.RemoveThisPoint(nextTarget);
+                nextTarget = mySpawner.GetNewIdlingPosition();
+                nextTargetPosition = nextTarget.position;
+            }
+        }
+        else
+        {
+            //move to the point
+            Vector3 direction = nextTargetPosition - this.transform.position;
+            //move at a constant speed (direction.normalize * speed ) 
+            if(direction.magnitude > speed * Time.deltaTime)
+            {
+                //Move to it
+                Debug.Log("Orhere");
+
+                this.transform.Translate(direction.normalized * speed * Time.deltaTime);
+            }
+            else
+            {
+                Debug.Log("Here");
+                this.transform.position = nextTargetPosition;
+                randomWait = Random.Range(randomWaitMinMax.x, randomWaitMinMax.y);
+                timerPause = 0;
+                //From one point to another one
+                //finish, start the wait !
+            }
+
+        }
 
     }
 

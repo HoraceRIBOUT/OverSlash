@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     public MainCharacter main_character;
     public CameraManager camera_Manager;
     public TMPro.TMP_Text scoreText;
+    public UnityEngine.UI.Slider scoreSlider;
+    public float maxScore = 50;
     public float score;
 
 
@@ -39,5 +41,6 @@ public class GameManager : MonoBehaviour
     {
         score += add;
         scoreText.text = "Satisfaction =\n" + score;
+        scoreSlider.value = score / maxScore;
     }
 }

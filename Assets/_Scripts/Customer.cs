@@ -112,7 +112,7 @@ public class Customer : MonoBehaviour
         int scoreCounter = UtilsEnum.howManyFlag(blob);
         //Add score :
         Debug.Log("scoreCounter = "+scoreCounter);
-        text.text = "+" + scoreCounter;
+        text.SetText("+" + scoreCounter);
         GameManager.instance.AddScore(scoreCounter);
 
     }
