@@ -140,8 +140,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80ee0400077d58a459918c5c57258e6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radiusStart: 12
-  radiusOk: 5
+  radiusStart: 6
+  radiusOk: 3
   layerSpeechBubble: {fileID: 0}
+  attributeNeedPrefab: {fileID: 2302655723778156877, guid: 7d8d00124bf6dfc4980f5586e51e4f6a,
+    type: 3}
   scoreUI: {fileID: 5780296056899030568, guid: c4f6bd65f252eac438a0c87e764452ac, type: 3}
   need: 0

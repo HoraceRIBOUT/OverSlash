@@ -6,14 +6,18 @@ public class Customer : MonoBehaviour
 {
     public float radiusStart = 12f;
     public float radiusOk = 5f;
-
+    
     public Animator layerSpeechBubble;
+    public GameObject attributeNeedPrefab;
     public GameObject scoreUI;
+
+    private Transform hero;
 
     public UtilsEnum.attribute need = UtilsEnum.attribute.None;
 
     public void Start()
     {
+        hero = GameManager.instance.main_character.transform;
         Randomize();
     }
     [Sirenix.OdinInspector.Button]
@@ -39,6 +43,30 @@ public class Customer : MonoBehaviour
 
         need  = (UtilsEnum.attribute)decalFirstAttrib;
         need |= (UtilsEnum.attribute)decalSecndAttrib;
+
+
+        GameObject gO = GameManager.instance.ui_manager.SpawnThis(attributeNeedPrefab, this.transform.position + Vector3.up * 3);
+        layerSpeechBubble = gO.GetComponentInChildren<Animator>();
+    }
+
+    public void Update()
+    {
+
+
+        float valueZeroOne = 1;
+        Vector3 distanceVec = this.transform.position - hero.position;
+        if (distanceVec.sqrMagnitude < radiusStart * radiusStart)
+        {
+            float distance = distanceVec.magnitude;
+            
+            valueZeroOne = (distance - radiusOk) / (radiusStart - radiusOk);
+            valueZeroOne = Mathf.Clamp01(valueZeroOne);
+
+
+//            Debug.Log("distance = " + distance + " radiusOk = " + radiusOk + "radiusStart = " + radiusStart);
+        }
+
+        layerSpeechBubble.SetLayerWeight(1, valueZeroOne);
     }
 
     public void GiveBlob(UtilsEnum.attribute blob)

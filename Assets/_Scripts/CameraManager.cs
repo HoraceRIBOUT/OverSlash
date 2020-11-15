@@ -94,7 +94,7 @@ public class CameraManager : MonoBehaviour
             //xPersoPosition = positionHeroY / yPosMinMax.x;
         }
 
-        Debug.Log(" hero.position.z = " + hero.position.z + " Position hero = " + positionHeroY + " rotationValueY = " + rotationValueY + " yMiddleCurve.Evaluate(positionHero) =" + yMiddleCurve.Evaluate(xPersoPosition));
+//        Debug.Log(" hero.position.z = " + hero.position.z + " Position hero = " + positionHeroY + " rotationValueY = " + rotationValueY + " yMiddleCurve.Evaluate(positionHero) =" + yMiddleCurve.Evaluate(xPersoPosition));
 
         rotationValueY = rotationValueY * rotationSpeed + previousRotationValueY * (1 - rotationSpeed);
         this.transform.localRotation = Quaternion.Euler(Vector3.right * rotationValueY);
