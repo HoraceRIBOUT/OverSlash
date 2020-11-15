@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     public float score;
 
 
+
     //[Sirenix.OdinInspector.Button]
     //public void SpawnBlob()
     //{

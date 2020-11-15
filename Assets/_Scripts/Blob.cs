@@ -204,7 +204,6 @@ public class Blob : MonoBehaviour
 
         if (nextTargetPosition == this.transform.position)
         {
-            Debug.Log("Or else...");
             //wait for timer
             timerPause += Time.deltaTime;
             if(timerPause > randomWait)
@@ -225,13 +224,11 @@ public class Blob : MonoBehaviour
             if(direction.magnitude > speed * Time.deltaTime)
             {
                 //Move to it
-                Debug.Log("Orhere");
 
                 this.transform.Translate(direction.normalized * speed * Time.deltaTime);
             }
             else
             {
-                Debug.Log("Here");
                 this.transform.position = nextTargetPosition;
                 randomWait = Random.Range(randomWaitMinMax.x, randomWaitMinMax.y);
                 timerPause = 0;
@@ -282,6 +279,7 @@ public class Blob : MonoBehaviour
     public void Die()
     {
         alive = false;
+        nextTargetPosition = this.transform.position;
         _animator.SetBool("Dead", true);
         GameManager.instance.ui_manager.SpawnThis(deadUI, this.transform.position + Vector3.up * 2f);
     }
