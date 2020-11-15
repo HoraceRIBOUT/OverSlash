@@ -16,14 +16,28 @@ public class GameManager : MonoBehaviour
     public UIManager ui_manager;
     public MainCharacter main_character;
     public CameraManager camera_Manager;
+    public TMPro.TMP_Text scoreText;
+    public float score;
 
 
-    [Sirenix.OdinInspector.Button]
-    public void SpawnBlob()
+    //[Sirenix.OdinInspector.Button]
+    //public void SpawnBlob()
+    //{
+    //    foreach(Blob bl in FindObjectsOfType<Blob>())
+    //    {
+    //        bl.Spawn();
+    //    }
+    //}
+
+    private void Update()
     {
-        foreach(Blob bl in FindObjectsOfType<Blob>())
-        {
-            bl.Spawn();
-        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+            Application.Quit();
+    }
+
+    public void AddScore(float add)
+    {
+        score += add;
+        scoreText.text = "Satisfaction =\n" + score;
     }
 }

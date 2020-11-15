@@ -113,9 +113,7 @@ public class Customer : MonoBehaviour
         //Add score :
         Debug.Log("scoreCounter = "+scoreCounter);
         text.text = "+" + scoreCounter;
-        //Goes away
-
-        //Make the next customer comes
+        GameManager.instance.AddScore(scoreCounter);
 
     }
     

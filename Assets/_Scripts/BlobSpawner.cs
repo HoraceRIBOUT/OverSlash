@@ -2,12 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteAlways]
 public class BlobSpawner : MonoBehaviour
 {
 
+
+
     public void Start()
     {
-        StartCoroutine(BlobSpawning());
+        if(Application.isPlaying)
+            StartCoroutine(BlobSpawning());
+    }
+
+    private void Update()
+    {
+        Debug.DrawLine(this.transform.position + Vector3.back    * randomAmpl + Vector3.right * randomAmpl,
+                       this.transform.position + Vector3.back    * randomAmpl + Vector3.left  * randomAmpl, Color.red);
+        Debug.DrawLine(this.transform.position + Vector3.back    * randomAmpl + Vector3.right * randomAmpl,
+                       this.transform.position + Vector3.forward * randomAmpl + Vector3.right * randomAmpl, Color.red);
+        Debug.DrawLine(this.transform.position + Vector3.forward * randomAmpl + Vector3.left  * randomAmpl,
+                       this.transform.position + Vector3.forward * randomAmpl + Vector3.right * randomAmpl, Color.red);
+        Debug.DrawLine(this.transform.position + Vector3.forward * randomAmpl + Vector3.left  * randomAmpl,
+                       this.transform.position + Vector3.back    * randomAmpl + Vector3.left  * randomAmpl, Color.red);
     }
 
     [Header("Spawner info")]
