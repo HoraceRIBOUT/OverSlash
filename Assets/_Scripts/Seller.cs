@@ -4,14 +4,67 @@ using UnityEngine;
 
 public class Seller : MonoBehaviour
 {
-    public Customer customer;
+    public Customer customerNext;
+    public Customer customerNextNext;
 
     public void Start()
     {
-        customer = FindObjectOfType<Customer>();
+        StartCoroutine(CustomerSpawner());
     }
 
-    //Maybe more a spawn of customer
+    [Header("Spawner info")]
+    public GameObject customerPrefab;
+    public Transform spawnPoint; //offscreen
+    public Transform parentCustomer; 
+    public List<Customer> allCurrentCustomer;
+    public List<Transform> waitingPoints;
+
+    public float waitTimerMin = 6f;
+    public float randomAmpl = 4f;
+
+    public IEnumerator CustomerSpawner()
+    {
+        yield return new WaitForSeconds(1f);
+        SpawnCustomer();
+        yield return new WaitForSeconds(2f);
+        while (true)
+        {
+            if(allCurrentCustomer.Count != waitingPoints.Count)
+            {
+                //add some jump to not make it every X 
+                SpawnCustomer();
+            }
+            //else, don't spawn any more
+            float randomWait = waitTimerMin + Random.Range(0, randomAmpl);
+            Debug.Log("Random wait = " + randomWait + " with " + allCurrentCustomer.Count + "customer");
+            yield return new WaitForSeconds(randomWait);
+        }
+    }
+
+    public  void SpawnCustomer()
+    {
+        GameObject gO = Instantiate(customerPrefab, spawnPoint.position, Quaternion.identity, parentCustomer);
+
+        Customer newCustomer = gO.GetComponent<Customer>();
+
+        if (allCurrentCustomer.Count == 0)
+            customerNext = newCustomer;
+        if (allCurrentCustomer.Count == 1)
+            customerNextNext = newCustomer;
+
+
+        newCustomer.ChangeWaitingPoint(waitingPoints[allCurrentCustomer.Count].position);
+
+        allCurrentCustomer.Add(newCustomer);
+    }
+
+    public void ReSetWaitingPoint()
+    {
+        for (int i = 0; i < allCurrentCustomer.Count; i++)
+        {
+            allCurrentCustomer[i].ChangeWaitingPoint(waitingPoints[i].position);
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -19,7 +72,17 @@ public class Seller : MonoBehaviour
         if(blob != null)
         {
             //Customer :
-            customer.GiveBlob(blob.blobAttribute);
+            customerNext.GiveBlob(blob.blobAttribute);
+
+            allCurrentCustomer.Remove(customerNext);
+
+            customerNext = customerNextNext;
+            if (allCurrentCustomer.Count == 1)
+            {
+                SpawnCustomer();
+            }
+            customerNextNext = allCurrentCustomer[1];//Not the first one (0) but the following one
+            ReSetWaitingPoint();
 
             //MainCharacter :
             GameManager.instance.main_character.DropBlob();
@@ -27,4 +90,6 @@ public class Seller : MonoBehaviour
             Destroy(blob.gameObject);
         }
     }
+
+
 }

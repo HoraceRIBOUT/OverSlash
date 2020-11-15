@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Customer : MonoBehaviour
 {
+    public float speed = 0.6f;
+    public AnimationCurve movementCurve;
     public float radiusStart = 12f;
     public float radiusOk = 5f;
     
@@ -68,6 +70,32 @@ public class Customer : MonoBehaviour
 
         layerSpeechBubble.SetLayerWeight(1, valueZeroOne);
     }
+
+    public void ChangeWaitingPoint(Vector3 newWaitingPoint)
+    {
+        //Add a small random :
+        newWaitingPoint.x += Random.Range(-0.75f, 0.75f);
+        newWaitingPoint.z += Random.Range(-0.75f, 0.75f);
+
+        StopAllCoroutines();
+        StartCoroutine(GoToThisCoord(newWaitingPoint));
+
+        // startcoroutine to go, delete coroutine if any
+    }
+
+    public IEnumerator GoToThisCoord(Vector3 target)
+    {
+        Vector3 startPoint = this.transform.position;
+        float lerp = 0;
+        while (lerp < 1)
+        {
+            float curvedLerp = movementCurve.Evaluate(lerp);
+            this.transform.position = Vector3.Lerp(startPoint, target, curvedLerp);
+            lerp += Time.deltaTime * speed;
+            yield return new WaitForSeconds(0.01f);
+        }
+    }
+
 
     public void GiveBlob(UtilsEnum.attribute blob)
     {
