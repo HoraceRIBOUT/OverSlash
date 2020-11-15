@@ -266,6 +266,7 @@ public class Blob : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        GameManager.instance.PlayHit();
         life -= damage;
         //Spawn damage output
         GameManager.instance.ui_manager.SpawnThis(damageUI, this.transform.position + Vector3.up * 2f);

@@ -44,4 +44,18 @@ public class GameManager : MonoBehaviour
         scoreText.text = "Satisfaction =\n" + score;
         scoreSlider.value = score / maxScore;
     }
+
+
+    [Header("Sound Management")]
+    public List<AudioSource> hitSound;
+    public int indexHitSound = 0;
+
+    public void PlayHit()
+    {
+        hitSound[indexHitSound].Play();
+
+        indexHitSound++;
+        if(indexHitSound == hitSound.Count)
+            indexHitSound = 0;
+    }
 }
