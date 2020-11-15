@@ -18,6 +18,7 @@ public class Seller : MonoBehaviour
     public Transform parentCustomer; 
     public List<Customer> allCurrentCustomer;
     public List<Transform> waitingPoints;
+    public Transform quitPoint;
 
     public float waitTimerMin = 6f;
     public float randomAmpl = 4f;
@@ -48,9 +49,16 @@ public class Seller : MonoBehaviour
         Customer newCustomer = gO.GetComponent<Customer>();
 
         if (allCurrentCustomer.Count == 0)
+        {
             customerNext = newCustomer;
+            customerNext.radiusStart *= 2;
+            customerNext.radiusOk *= 2;
+        }
         if (allCurrentCustomer.Count == 1)
+        {
             customerNextNext = newCustomer;
+            customerNextNext.radiusStart *= 1.5f;
+        }
 
 
         newCustomer.ChangeWaitingPoint(waitingPoints[allCurrentCustomer.Count].position);
@@ -73,21 +81,25 @@ public class Seller : MonoBehaviour
         {
             //Customer :
             customerNext.GiveBlob(blob.blobAttribute);
-
+            customerNext.ChangeWaitingPoint(quitPoint.position);
             allCurrentCustomer.Remove(customerNext);
 
+
             customerNext = customerNextNext;
+            customerNext.radiusStart *= 2;
+            customerNext.radiusOk *= 2;
             if (allCurrentCustomer.Count == 1)
             {
                 SpawnCustomer();
             }
             customerNextNext = allCurrentCustomer[1];//Not the first one (0) but the following one
+            customerNextNext.radiusStart *= 1.5f;
             ReSetWaitingPoint();
 
             //MainCharacter :
             GameManager.instance.main_character.DropBlob();
             //Blob : destroyyyyyy !!!
-            Destroy(blob.gameObject);
+            blob.Destroy();
         }
     }
 

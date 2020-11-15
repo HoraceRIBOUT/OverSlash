@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2302655723778156876}
   - component: {fileID: 494793843478668058}
+  - component: {fileID: -5526454545271833581}
   m_Layer: 5
   m_Name: AttributeNeed
   m_TagString: Untagged
@@ -56,6 +57,39 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &-5526454545271833581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2302655723778156877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d61775fd98e5de242a471fc9d62f9600, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetTrans: {fileID: 0}
+  delay: 0.9
+  iconUI:
+  - {fileID: 6427003524286563225}
+  - {fileID: 6427003524842682036}
+  - {fileID: 6427003523655069363}
+  attribIcon:
+  - attrib: 1
+    icon: {fileID: 21300000, guid: 81d479d294daef4458d5df09ac515e3c, type: 3}
+  - attrib: 2
+    icon: {fileID: 21300000, guid: 2fe733fa76a472a4a937ee13c7d48088, type: 3}
+  - attrib: 4
+    icon: {fileID: 21300000, guid: 6b38dd571975fad428095646c148b045, type: 3}
+  - attrib: 8
+    icon: {fileID: 21300000, guid: 798440c80e8619041a80e32e3fceda36, type: 3}
+  - attrib: 16
+    icon: {fileID: 21300000, guid: 89cd2817666ae7042841ef16f5fc3aa9, type: 3}
+  - attrib: 32
+    icon: {fileID: 21300000, guid: 8af62ee076633a142ab40db1572e04bc, type: 3}
+  - attrib: 64
+    icon: {fileID: 21300000, guid: ee5d853e9108dd14e99178cfa6debce6, type: 3}
 --- !u!1 &6427003523496055490
 GameObject:
   m_ObjectHideFlags: 0

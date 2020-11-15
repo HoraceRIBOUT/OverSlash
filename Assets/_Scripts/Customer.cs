@@ -49,6 +49,7 @@ public class Customer : MonoBehaviour
 
         GameObject gO = GameManager.instance.ui_manager.SpawnThis(attributeNeedPrefab, this.transform.position + Vector3.up * 3);
         layerSpeechBubble = gO.GetComponentInChildren<Animator>();
+        gO.GetComponentInChildren<AttributeUI>().Initialization(this.transform, need);
     }
 
     public void Update()
@@ -71,19 +72,19 @@ public class Customer : MonoBehaviour
         layerSpeechBubble.SetLayerWeight(1, valueZeroOne);
     }
 
-    public void ChangeWaitingPoint(Vector3 newWaitingPoint)
+    public void ChangeWaitingPoint(Vector3 newWaitingPoint, bool destroyAtArrival = false)
     {
         //Add a small random :
         newWaitingPoint.x += Random.Range(-0.75f, 0.75f);
         newWaitingPoint.z += Random.Range(-0.75f, 0.75f);
 
         StopAllCoroutines();
-        StartCoroutine(GoToThisCoord(newWaitingPoint));
+        StartCoroutine(GoToThisCoord(newWaitingPoint, destroyAtArrival));
 
         // startcoroutine to go, delete coroutine if any
     }
 
-    public IEnumerator GoToThisCoord(Vector3 target)
+    public IEnumerator GoToThisCoord(Vector3 target, bool destroyAtArrival)
     {
         Vector3 startPoint = this.transform.position;
         float lerp = 0;
@@ -93,6 +94,10 @@ public class Customer : MonoBehaviour
             this.transform.position = Vector3.Lerp(startPoint, target, curvedLerp);
             lerp += Time.deltaTime * speed;
             yield return new WaitForSeconds(0.01f);
+        }
+        if (destroyAtArrival)
+        {
+            Destroy();
         }
     }
 
@@ -113,5 +118,10 @@ public class Customer : MonoBehaviour
         //Make the next customer comes
 
     }
-
+    
+    public void Destroy()
+    {
+        Destroy(layerSpeechBubble.gameObject);
+        Destroy(this.gameObject);
+    }
 }

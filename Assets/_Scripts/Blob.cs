@@ -92,6 +92,7 @@ public class Blob : MonoBehaviour
 
         GameObject gO = GameManager.instance.ui_manager.SpawnThis(attributeNeedPrefab, this.transform.position + Vector3.up * 3);
         layerSpeechBubble = gO.GetComponentInChildren<Animator>();
+        gO.GetComponentInChildren<AttributeUI>().Initialization(this.transform, blobAttribute);
     }
 
     public void ChangeSize(UtilsEnum.attribute size)
@@ -239,5 +240,9 @@ public class Blob : MonoBehaviour
         GameManager.instance.ui_manager.SpawnThis(deadUI, this.transform.position + Vector3.up * 2f);
     }
 
-
+    public void Destroy()
+    {
+        Destroy(layerSpeechBubble.gameObject);
+        Destroy(this.gameObject);
+    }
 }
